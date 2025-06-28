@@ -7,7 +7,7 @@ class terraformUtils {
         this.stack = stack
     }
 
-    def formatCheck(string Customer){
+    def formatCheck(Customer){
         stack.sh """
           cd ${stack.env.WORKSPACE}/stacks/${Customer}
           sudo terraform fmt -check
