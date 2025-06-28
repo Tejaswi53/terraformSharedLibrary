@@ -1,7 +1,7 @@
-import org.dlv.terraform
+import org.dlv.terraform.terraformUtils
 
 def call(Map config = [:]) {
-    def terraform = new TerraformUtils(this)
+    def terraform = new terraformUtils(this)
 
     pipeline {
         agent any
