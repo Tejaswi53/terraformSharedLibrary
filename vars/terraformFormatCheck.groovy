@@ -8,6 +8,8 @@ def call(Map config = [:]) {
 
         parameters {
             string(name: 'Customer', defaultValue: config.customer ?: 'kasier', description: 'Enter the customer name')
+            choice(name: 'ACTIONS', choices: ['plan', 'apply', 'destroy'], description: 'Select one choice to perform terraform action')
+            choice(name: 'ENV', choices: ['dev', 'stage', 'prod'], description: 'Select the environment')
         }
 
         stages {
@@ -22,6 +24,30 @@ def call(Map config = [:]) {
                 steps {
                     script {
                         terraform.formatCheck(params.Customer)
+                    }
+                }
+            }
+
+            stage('Terraform init') {
+                steps {
+                    script {
+                        terraform.init(params.Customer)
+                    }
+                }
+            }
+
+            stage('Terraform validate') {
+                steps {
+                    script {
+                        terraform.validate(params.Customer)
+                    }
+                }
+            }
+
+            stage('Terraform select workspace') {
+                steps {
+                    script {
+                        terraform.selectWorkspace(params.Customer, params.ENV)
                     }
                 }
             }
