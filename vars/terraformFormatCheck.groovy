@@ -20,7 +20,9 @@ def call(Map config = [:]) {
 
             stage('Terraform Format Check') {
                 steps {
-                    terraform.formatCheck(params.Customer)
+                    script {
+                        terraform.formatCheck(params.Customer)
+                    }
                 }
             }
         }
