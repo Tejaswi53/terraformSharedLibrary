@@ -12,6 +12,10 @@ def call(Map config = [:]) {
             choice(name: 'ENV', choices: ['dev', 'stage', 'prod'], description: 'Select the environment')
         }
 
+        environment {
+            ACTION = "${params.ACTIONS}"
+        }
+
         stages {
 
             stage('Git Checkout') {
@@ -48,6 +52,39 @@ def call(Map config = [:]) {
                 steps {
                     script {
                         terraform.selectWorkspace(params.Customer, params.ENV)
+                    }
+                }
+            }
+
+            stage('Terraform plan') {
+                when {
+                    expression { env.ACTION == 'plan' || env.ACTION == 'apply' }
+                }
+                steps {
+                    script {
+                        terraform.plan(params.Customer, params.ENV)
+                    }
+                }
+            }
+
+            stage('Terraform apply') {
+                when {
+                    expression { env.ACTION == 'apply' }
+                }
+                steps {
+                    script {
+                        terraform.apply(params.Customer, params.ENV)
+                    }
+                }
+            }
+
+            stage('Terraform destroy') {
+                when {
+                    expression { env.ACTION == 'destroy' }
+                }
+                steps {
+                    script {
+                        terraform.destroy(params.Customer, params.ENV)
                     }
                 }
             }
