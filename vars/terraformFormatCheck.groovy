@@ -71,8 +71,9 @@ def call(Map config = [:]) {
                 when {
                     expression { env.ACTION == 'apply' }
                 }
-                steps {
+                steps { 
                     script {
+                        input message: "Do you want to proceed with 'terraform apply' for ${params.Customer} in ${prams.ENV}?"
                         terraform.apply(params.Customer, params.ENV)
                     }
                 }
@@ -84,6 +85,7 @@ def call(Map config = [:]) {
                 }
                 steps {
                     script {
+                        input message: "Are you sure you want to 'terraform destroy' for ${params.Customer} in ${params.ENV}?"
                         terraform.destroy(params.Customer, params.ENV)
                     }
                 }
