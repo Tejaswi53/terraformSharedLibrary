@@ -73,7 +73,7 @@ def call(Map config = [:]) {
                 }
                 steps { 
                     script {
-                        input message: "Do you want to proceed with 'terraform apply' for ${params.Customer} in ${prams.ENV}?"
+                        input message: "Do you want to proceed with 'terraform apply' for ${params.Customer} in ${params.ENV}?"
                         terraform.apply(params.Customer, params.ENV)
                     }
                 }
